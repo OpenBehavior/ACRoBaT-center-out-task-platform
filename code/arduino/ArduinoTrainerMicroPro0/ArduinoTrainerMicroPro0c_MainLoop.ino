@@ -53,8 +53,7 @@
     // update boolean GBL_JystkZone[7]
     setJoystickZoneRegister(prev_GBL_JystkZone, TARGET_THRESHOLD_DIST);
   
-    // update int GBL_JystkZone_Counts[7] and int GBL_JystkZone_ValidCounts[3]
-    updateJoystickZoneCounts(prev_GBL_JystkZone);
+    // update int GBL_JystkZone_DwellTime[5]
     updateJoystickZoneDwellTimer(prev_GBL_JystkZone);
   
   
@@ -82,13 +81,14 @@
     int w = GBL_stimIncrRndIdx;
     boolean crTrgt = GBL_Current_Target == GBL_TARGET;
     
-    GBL_stimAmp_ua        = (crTrgt) ? GBL_stimCrAmpArray[r]        : GBL_stimIncrAmpArray[w];
-    GBL_stimFreq_hz       = (crTrgt) ? GBL_stimCrFreqArray[r]       : GBL_stimIncrFreqArray[w];
-    GBL_stimPulseWidth_us = (crTrgt) ? GBL_stimCrPulseWidthArray[r] : GBL_stimIncrPulseWidthArray[w];   
-    GBL_stimNumPulses_int = (crTrgt) ? GBL_stimCrPulseNumArray[r]   : GBL_stimIncrPulseNumArray[w];
-    
+    GBL_stimAmp_ua         = (crTrgt) ? GBL_stimCrAmpArray[r]        : GBL_stimIncrAmpArray[w];
+    GBL_stimFreq_hz        = (crTrgt) ? GBL_stimCrFreqArray[r]       : GBL_stimIncrFreqArray[w];
+    GBL_stimPulseWidth_us  = (crTrgt) ? GBL_stimCrPulseWidthArray[r] : GBL_stimIncrPulseWidthArray[w];   
+    GBL_stimNumPulses_int  = (crTrgt) ? GBL_stimCrPulseNumArray[r]   : GBL_stimIncrPulseNumArray[w];
+    GBL_stimCarrierFreq_ms = (crTrgt) ? GBL_stimCrCarFreqArray[r]    : GBL_stimIncrCarFreqArray[w];
+
     //GBL_stimNumPulses_int  = 5;
-    GBL_stimCarrierFreq_hz = 100;
+    //GBL_stimCarrierFreq_ms = 100;
     GBL_stimElectrode_int  = 5;
     GBL_stimTrialNum_int   = GBL_trial_number;
       
@@ -157,7 +157,7 @@
       db25_Send2TDT(byteAddr_Freq,        GBL_stimFreq_hz);
       db25_Send2TDT(byteAddr_PulseWidth,  GBL_stimPulseWidth_us);
       db25_Send2TDT(byteAddr_NumPulses,   GBL_stimNumPulses_int);
-      db25_Send2TDT(byteAddr_CarrierFreq, GBL_stimCarrierFreq_hz);
+      db25_Send2TDT(byteAddr_CarrierFreq, GBL_stimCarrierFreq_ms);
       db25_Send2TDT(byteAddr_Electrode,   GBL_stimElectrode_int);
       db25_Send2TDT(byteAddr_TrialNum,    GBL_stimTrialNum_int);
             
@@ -588,6 +588,7 @@
           minCrLen = (GBL_stimCrFreqArrLen > 1)       ? min(GBL_stimCrFreqArrLen,       minCrLen) : minCrLen;
           minCrLen = (GBL_stimCrPulseWidthArrLen > 1) ? min(GBL_stimCrPulseWidthArrLen, minCrLen) : minCrLen;
           minCrLen = (GBL_stimCrPulseNumArrLen > 1)   ? min(GBL_stimCrPulseNumArrLen,   minCrLen) : minCrLen;
+          minCrLen = (GBL_stimCrCarFreqArrLen > 1)    ? min(GBL_stimCrCarFreqArrLen,    minCrLen) : minCrLen;
           GBL_stimCrRndIdx = (minCrLen != 11) ? random(0, minCrLen) : 0;
                       
           int minIncrLen = 11;
@@ -595,6 +596,7 @@
           minIncrLen = (GBL_stimIncrFreqArrLen > 1)        ? min(GBL_stimIncrFreqArrLen,       minIncrLen) : minIncrLen;
           minIncrLen = (GBL_stimIncrPulseWidthArrLen > 1)  ? min(GBL_stimIncrPulseWidthArrLen, minIncrLen) : minIncrLen;
           minIncrLen = (GBL_stimIncrPulseNumArrLen > 1)    ? min(GBL_stimIncrPulseNumArrLen,   minIncrLen) : minIncrLen;
+          minIncrLen = (GBL_stimIncrCarFreqArrLen > 1)     ? min(GBL_stimIncrCarFreqArrLen,    minIncrLen) : minIncrLen;
           GBL_stimIncrRndIdx = (minIncrLen != 11) ? random(0, minIncrLen) : 0;
          
   
@@ -609,12 +611,8 @@
   
           // Clear all Target Dwell Times / Counters / ETC
           for (int clr_trgt = 0; clr_trgt < GBL_NUM_TARGETS; clr_trgt++)
-          {
-            GBL_JystkZone_Counts[clr_trgt]       = 0;
-            GBL_JystkZone_ValidCounts[clr_trgt]  = 0;
-  
+          { 
             GBL_JystkZone_DwellTime[clr_trgt]      = 0;
-            GBL_JystkZone_ValidDwellTime[clr_trgt] = 0;
           }
   
           GBL_handle_reset_flag = false;    // Joystick Reset Flag

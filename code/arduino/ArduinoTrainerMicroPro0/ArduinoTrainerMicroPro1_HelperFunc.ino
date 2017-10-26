@@ -170,40 +170,7 @@
     }
   }
   
-  // Reward Function + Global Variable --------------------------
-  boolean pullNotCountedYet = false;
-  boolean updateJoystickZoneCounts(boolean prev_GBL_JystkZone[7])
-  {
-                                    
-    //        prev_GBL_JystkZone[HOME] |-------__________
-    //             GBL_JystkZone[HOME] |------___________
-    //             GBL_JystkZone[LEFT] |______-----------
-    //               pullNotCountedYet |______----_______
-    //                        unlocked |_________--------
-    //      GBL_JystkZone_Counts[LEFT] |______-----------
-    // GBL_JystkZone_ValidCounts[LEFT] |_________--------
-    //                            time |====================>
-    //    
     
-    // If the handle has been reset 
-    if (GBL_handle_reset_flag == true)
-    {
-      // If Joystick moves out of HOME (towards a target)
-      if (prev_GBL_JystkZone[HOME] == true && GBL_JystkZone[HOME] == false)
-      {
-        for (int trgt = 0; trgt < GBL_NUM_TARGETS; trgt++)
-          if (GBL_JystkZone[trgt] == true)
-          {
-            // Increment Pull Counts
-            GBL_JystkZone_Counts[trgt] += 1;
-              
-            break;
-          }  
-      }
-    }  
-    return true;    
-  }
-  
   // **********************************************
   // Helper Functions - Locking Joystick
   // **********************************************

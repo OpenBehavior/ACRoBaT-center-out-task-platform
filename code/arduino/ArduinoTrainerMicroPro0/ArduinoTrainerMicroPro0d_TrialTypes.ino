@@ -186,55 +186,55 @@
         }
     }
     
-    // Hidden Find Target **********************************************
-    else if (GBL_TRIAL_TYPE >= TRIAL_FIND_STIM_HIDDEN_EqNoErlyShtRwdTr &&
-             GBL_TRIAL_TYPE <= TRIAL_FIND_STIM_HIDDEN_EqNoShtRwdTr)
-    {
-      GBL_LED_Cues_Hidden = false;
-      GBL_LED_Cues_Overt  = false;
-      GBL_Adpt_DwellTime  = true;
-
-      GBL_DWELL_TIME_MS = 1000;
-      GBL_TIMEOUT_TIME_MS = 1000;
-      
-      switch (GBL_TRIAL_TYPE)
-      {          
-        case TRIAL_FIND_STIM_HIDDEN_EqNoErlyShtRwdTr:
-          GBL_DWELL_TIME_MS = 1250;  
-          GBL_TIMEOUT_TIME_MS = 1250; 
-          break;
-          
-        case TRIAL_FIND_STIM_HIDDEN_EqNoShtRwdTr:
-          GBL_DWELL_TIME_MS = 1250;  
-          GBL_TIMEOUT_TIME_MS = 1250; 
-          break;  
-      }
-      
-      // Increment dwell time requirement to increase difficulty gradually
-      if (GBL_Adpt_DwellTime)
-      {
-        int rewardCount_incmnt = 5;
-        int num_levels = round(GBL_reward_counter/rewardCount_incmnt);
-        
-        GBL_DWELL_TIME_MS   = min(1250, GBL_DWELL_TIME_MS + 25*num_levels);
-        GBL_TIMEOUT_TIME_MS = max(1250, GBL_TIMEOUT_TIME_MS - 25*num_levels);
-      }
-      
-      // Motivation/Reward Pairing in the beginning of each trial
-      if (GBL_TRIAL_TYPE > TRIAL_FIND_STIM_HIDDEN_Timeout_Step3 && GBL_SHORT_RWD_TRIAL)
-      {
-        GBL_DWELL_TIME_MS = 500;
-        //GBL_TIMEOUT_TIME_MS = 2000;
-      }
-              
-      for (int trgt = 0; trgt < GBL_NUM_TARGETS; trgt++)
-        if ((trgt == GBL_TARGET && GBL_JystkZone_DwellTime[trgt] > GBL_DWELL_TIME_MS) ||
-            (trgt != GBL_TARGET && GBL_JystkZone_DwellTime[trgt] > GBL_TIMEOUT_TIME_MS) )
-        {          
-          GBL_Selected_Target = trgt;
-          trial_completed = true;
-        }      
-    }         
+//    // Hidden Find Target **********************************************
+//    else if (GBL_TRIAL_TYPE >= TRIAL_FIND_STIM_HIDDEN_EqNoErlyShtRwdTr &&
+//             GBL_TRIAL_TYPE <= TRIAL_FIND_STIM_HIDDEN_EqNoShtRwdTr)
+//    {
+//      GBL_LED_Cues_Hidden = false;
+//      GBL_LED_Cues_Overt  = false;
+//      GBL_Adpt_DwellTime  = true;
+//
+//      GBL_DWELL_TIME_MS = 1000;
+//      GBL_TIMEOUT_TIME_MS = 1000;
+//      
+//      switch (GBL_TRIAL_TYPE)
+//      {          
+//        case TRIAL_FIND_STIM_HIDDEN_EqNoErlyShtRwdTr:
+//          GBL_DWELL_TIME_MS = 1250;  
+//          GBL_TIMEOUT_TIME_MS = 1250; 
+//          break;
+//          
+//        case TRIAL_FIND_STIM_HIDDEN_EqNoShtRwdTr:
+//          GBL_DWELL_TIME_MS = 1250;  
+//          GBL_TIMEOUT_TIME_MS = 1250; 
+//          break;  
+//      }
+//      
+//      // Increment dwell time requirement to increase difficulty gradually
+//      if (GBL_Adpt_DwellTime)
+//      {
+//        int rewardCount_incmnt = 5;
+//        int num_levels = round(GBL_reward_counter/rewardCount_incmnt);
+//        
+//        GBL_DWELL_TIME_MS   = min(1250, GBL_DWELL_TIME_MS + 25*num_levels);
+//        GBL_TIMEOUT_TIME_MS = max(1250, GBL_TIMEOUT_TIME_MS - 25*num_levels);
+//      }
+//      
+//      // Motivation/Reward Pairing in the beginning of each trial
+//      if (GBL_TRIAL_TYPE > TRIAL_FIND_STIM_HIDDEN_Timeout_Step3 && GBL_SHORT_RWD_TRIAL)
+//      {
+//        GBL_DWELL_TIME_MS = 500;
+//        //GBL_TIMEOUT_TIME_MS = 2000;
+//      }
+//              
+//      for (int trgt = 0; trgt < GBL_NUM_TARGETS; trgt++)
+//        if ((trgt == GBL_TARGET && GBL_JystkZone_DwellTime[trgt] > GBL_DWELL_TIME_MS) ||
+//            (trgt != GBL_TARGET && GBL_JystkZone_DwellTime[trgt] > GBL_TIMEOUT_TIME_MS) )
+//        {          
+//          GBL_Selected_Target = trgt;
+//          trial_completed = true;
+//        }      
+//    }         
     
     // Return Value **********************************************
     return trial_completed;

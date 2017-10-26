@@ -47,7 +47,7 @@
                     String(GBL_stimFreq_hz, DEC) + ", " +
                     String(GBL_stimPulseWidth_us, DEC) + ", " +
                     String(GBL_stimNumPulses_int, DEC) + ", " +
-                    String(GBL_stimCarrierFreq_hz, DEC) + ", " +
+                    String(GBL_stimCarrierFreq_ms, DEC) + ", " +
                     String(GBL_stimElectrode_int, DEC) + ", " +
                     String(GBL_stimTrialNum_int, DEC) + ", " +
                     
@@ -152,7 +152,7 @@
                           "GBL_stimFreq_hz, "
                           "GBL_stimPulseWidth_us, "
                           "GBL_stimNumPulses_int,  "
-                          "GBL_stimCarrierFreq_hz, "
+                          "GBL_stimCarrierFreq_ms, "
                           "GBL_stimElectrode_int, "
                           "GBL_stimTrialNum_int, "
 
@@ -168,7 +168,7 @@
     // Trial Type Variables
     else if (name.equals("trial_list"))
     {
-      Serial.println( F ( "HEADER, 29" ) );
+      Serial.println( F ( "HEADER, 27" ) );
       
       Serial.println( F ( "TRIAL_SIPPER_20" ) );
       Serial.println( F ( "TRIAL_SIPPER_COUNTS_10" ) );
@@ -203,8 +203,8 @@
       Serial.println( F ( "TRIAL_FIND_STIM_HIDDEN_Timeout_Step6" ) );
       Serial.println( F ( "TRIAL_FIND_STIM_HIDDEN_EqualTimeout" ) );
       
-      Serial.println( F ( "TRIAL_FIND_STIM_HIDDEN_EqNoErlyShtRwdTr" ) );
-      Serial.println( F ( "TRIAL_FIND_STIM_HIDDEN_EqNoShtRwdTr" ) );     
+//      Serial.println( F ( "TRIAL_FIND_STIM_HIDDEN_EqNoErlyShtRwdTr" ) );
+//      Serial.println( F ( "TRIAL_FIND_STIM_HIDDEN_EqNoShtRwdTr" ) );     
     }
 
     else if (name.equals("get_trial_type"))
@@ -340,11 +340,18 @@
         memcpy(GBL_stimIncrPulseNumArray, GBL_stimParamArray, 10 * sizeof(int)); 
       }
       
-      else if (name.equals("set_stim_carrierfreq"))
+      else if (name.equals("set_stim_carfreq_cr"))
       {
-        GBL_stimCarrierFreq_hz = value;
+        GBL_stimCrCarFreqArrLen = value_idx;
+        memcpy(GBL_stimCrCarFreqArray, GBL_stimParamArray, 10 * sizeof(int)); 
       }
       
+      else if (name.equals("set_stim_carfreq_incr"))
+      {
+        GBL_stimIncrCarFreqArrLen = value_idx; 
+        memcpy(GBL_stimIncrCarFreqArray, GBL_stimParamArray, 10 * sizeof(int)); 
+      }
+            
       else if (name.equals("set_stim_electrode"))
       {
         GBL_stimElectrode_int = value;

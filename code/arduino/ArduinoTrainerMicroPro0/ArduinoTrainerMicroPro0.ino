@@ -7,7 +7,7 @@
   // Number of Targets: 3
   // **********************************************  
   
-  const char CODE_VERSION[] = "V12.3.2";
+  const char CODE_VERSION[] = "V13.0.0";
   
   
   // **********************************************
@@ -118,11 +118,12 @@
   
   int GBL_trial_number = 0;
     
+  // Phase I
   const int TRIAL_SIPPER_20                        = 1;
   const int TRIAL_SIPPER_COUNTS_10                 = 2;  
-  
   const int TRIAL_TOUCH_JYSTK                      = 3;
   
+  // Phase II
   const int TRIAL_MOVE_JYSTK                       = 4;
   const int TRIAL_MOVE_JYSTK_LEFT_NoTimeout        = 5;
   const int TRIAL_MOVE_JYSTK_RIGHT_NoTimeout       = 6;
@@ -130,9 +131,11 @@
   const int TRIAL_MOVE_JYSTK_TOP_L_NoTimeout       = 8;
   const int TRIAL_MOVE_JYSTK_TOP_R_NoTimeout       = 9;
   
+  // Phase III
   const int TRIAL_FIND_TARGET_OVERT_NoTimeout      = 10;
   const int TRIAL_FIND_TARGET_OVERT_Timeout        = 11;
   
+  // Phase IV
   const int TRIAL_FIND_TARGET_HIDDEN_NoTimeout     = 12;
   const int TRIAL_FIND_TARGET_HIDDEN_Timeout_Step1 = 13;
   const int TRIAL_FIND_TARGET_HIDDEN_Timeout_Step2 = 14;
@@ -142,6 +145,7 @@
   const int TRIAL_FIND_TARGET_HIDDEN_Timeout_Step6 = 18;
   const int TRIAL_FIND_TARGET_HIDDEN_EqualTimeout  = 19;
   
+  // Phase V
   const int TRIAL_FIND_STIM_HIDDEN_NoTimeout       = 20;
   const int TRIAL_FIND_STIM_HIDDEN_Timeout_Step1   = 21;
   const int TRIAL_FIND_STIM_HIDDEN_Timeout_Step2   = 22;
@@ -150,9 +154,6 @@
   const int TRIAL_FIND_STIM_HIDDEN_Timeout_Step5   = 25;
   const int TRIAL_FIND_STIM_HIDDEN_Timeout_Step6   = 26;
   const int TRIAL_FIND_STIM_HIDDEN_EqualTimeout    = 27;
-  
-  const int TRIAL_FIND_STIM_HIDDEN_EqNoErlyShtRwdTr = 28;
-  const int TRIAL_FIND_STIM_HIDDEN_EqNoShtRwdTr     = 29;
 
   
   // **********************************************
@@ -198,10 +199,7 @@
   int GBL_DWELL_TIME_MS    = 1000;
   int GBL_TIMEOUT_TIME_MS  = 1000;
   
-  int  GBL_JystkZone_Counts[5]         = {0,0,0,0,0};  // #[left,right,cntr,top_L,top_R pulls]
-  int  GBL_JystkZone_ValidCounts[5]    = {0,0,0,0,0};  // #[left,right,cntr,top_L,top_R pulls]
   long GBL_JystkZone_DwellTime[5]      = {0,0,0,0,0};  // #[left,right,cntr,top_L,top_R dwell]
-  long GBL_JystkZone_ValidDwellTime[5] = {0,0,0,0,0};  // #[left,right,cntr,top_L,top_R dwell]
   
   boolean GBL_stimulation_enabled = false;  
   boolean GBL_cue_leds_enabled    = false;
@@ -220,7 +218,7 @@
   int GBL_stimFreq_hz        = 300;           // Byte C.1
   int GBL_stimPulseWidth_us  = 200;           // Byte C.2
   int GBL_stimNumPulses_int  = 5;             // Byte C.3
-  int GBL_stimCarrierFreq_hz = 100;           // Byte C.4
+  int GBL_stimCarrierFreq_ms = 100;           // Byte C.4
   int GBL_stimElectrode_int  = 5;             // Byte C.5
   int GBL_stimTrialNum_int   = 1;             // Byte C.0 & C.1
   
@@ -250,25 +248,30 @@
   long GBL_y_axis_home = 0; 
   
   // Stim Parameter Choices
-  int GBL_stimCrAmpArray[10]   = {70,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-  int GBL_stimCrAmpArrLen      = 1;
-  int GBL_stimIncrAmpArray[10] = {0,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-  int GBL_stimIncrAmpArrLen    = 1;
+  int GBL_stimCrAmpArray[10]          = {70,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  int GBL_stimCrAmpArrLen             = 1;
+  int GBL_stimIncrAmpArray[10]        = {0,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  int GBL_stimIncrAmpArrLen           = 1;
   
-  int GBL_stimCrFreqArray[10]   = {300,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-  int GBL_stimCrFreqArrLen      = 1;
-  int GBL_stimIncrFreqArray[10] = {0,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-  int GBL_stimIncrFreqArrLen    = 1;
+  int GBL_stimCrFreqArray[10]         = {300,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  int GBL_stimCrFreqArrLen            = 1;
+  int GBL_stimIncrFreqArray[10]       = {0,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  int GBL_stimIncrFreqArrLen          = 1;
 
   int GBL_stimCrPulseWidthArray[10]   = {200,-1,-1,-1,-1,-1,-1,-1,-1,-1};
   int GBL_stimCrPulseWidthArrLen      = 1;
   int GBL_stimIncrPulseWidthArray[10] = {0,-1,-1,-1,-1,-1,-1,-1,-1,-1};
   int GBL_stimIncrPulseWidthArrLen    = 1;
   
-  int GBL_stimCrPulseNumArray[10]   = {5,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-  int GBL_stimCrPulseNumArrLen      = 1;
-  int GBL_stimIncrPulseNumArray[10] = {5,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-  int GBL_stimIncrPulseNumArrLen    = 1;
+  int GBL_stimCrPulseNumArray[10]     = {5,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  int GBL_stimCrPulseNumArrLen        = 1;
+  int GBL_stimIncrPulseNumArray[10]   = {5,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  int GBL_stimIncrPulseNumArrLen      = 1;
+  
+  int GBL_stimCrCarFreqArray[10]      = {100,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  int GBL_stimCrCarFreqArrLen         = 1;
+  int GBL_stimIncrCarFreqArray[10]    = {100,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+  int GBL_stimIncrCarFreqArrLen       = 1;
 
   int GBL_stimCrRndIdx = 0;
   int GBL_stimIncrRndIdx = 0;
